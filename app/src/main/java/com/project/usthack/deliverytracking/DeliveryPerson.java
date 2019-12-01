@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -72,6 +73,27 @@ public class DeliveryPerson extends FragmentActivity implements OnMapReadyCallba
         final Button bt = findViewById(R.id.start);
         final EditText txtView = findViewById(R.id.otp);
         final ImageView bt1 = findViewById(R.id.verify);
+        final Button chat = findViewById(R.id.chat);
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebView webview = new WebView(getApplicationContext());
+                webview.getSettings().setJavaScriptEnabled(true);
+                setContentView(webview);
+                webview.loadUrl("https://ust-hack.herokuapp.com");
+
+            }
+        });
+
+        final Button emer = findViewById(R.id.emer);
+        emer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("hi","error");
+                Intent intent = new Intent(getApplicationContext(),emergency.class);
+                startActivity(intent);
+            }
+        });
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

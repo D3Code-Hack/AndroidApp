@@ -74,6 +74,30 @@
             app:layout_constraintVertical_bias="1.0"
             tools:ignore="ContentDescription" />
 
+        <Button
+            android:id="@+id/emer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="456dp"
+            android:text="EMergency"
+            app:layout_constraintBottom_toBottomOf="@+id/map"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.829"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.66" />
+
+        <Button
+            android:id="@+id/chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="459dp"
+            android:text="Chat"
+            app:layout_constraintBottom_toBottomOf="@+id/map"
+            app:layout_constraintEnd_toStartOf="@+id/emer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#FCFBFE"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Emergency type"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"/>
+
+    <!-- add RadioGroup which contain the many RadioButton-->
+    <RadioGroup
+        android:layout_marginTop="50dp"
+        android:id="@+id/groupradio"
+        android:layout_marginLeft="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <!-- In RadioGroup create the 1 Radio Button-->
+        <!-- like this we will add some more Radio Button-->
+        <RadioButton
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radia_id1"
+            android:text="Vehicle Issues"
+            android:textSize="20dp"/>
+
+        <RadioButton
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radia_id2"
+            android:text="Health/Accident Issues"
+            android:textSize="20dp"/>
+
+        <RadioButton
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radia_id3"
+            android:text="Theft/Criminal activity"
+            android:textSize="20dp"/>
+
+        <RadioButton
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radia_id4"
+            android:text="Other"
+            android:textSize="20dp"/>
+    </RadioGroup>
+
+
+    <EditText
+        android:id="@+id/reason"
+        android:layout_width="match_parent"
+        android:layout_height="165dp"
+        android:layout_below="@+id/groupradio"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:textColorHint="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="0dp"
+        android:background="#009900"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="353dp"
+        android:hint="Enter Description in short." />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="180dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="238dp"
+        android:text="Submit"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>
