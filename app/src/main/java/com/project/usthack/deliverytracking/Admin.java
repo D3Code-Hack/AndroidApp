@@ -106,23 +106,17 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
                 String uid = user.getUid();
                 UUID uuid = UUID.randomUUID();
 
-                path = "Enterprise/"+uid+"/Store/"+uuid.toString()+"/Lat";
+                path = "Enterprise/"+uid+"/Store/"+uuid.toString();
                 ref= FirebaseDatabase.getInstance().getReference(path);
-
-                path = "Enterprise/"+uid+"/Store/"+uuid.toString()+"/Long";
-                ref= FirebaseDatabase.getInstance().getReference(path);
+                latitude =latitude1.getText().toString();
                 longitude =longitude1.getText().toString();
-                ref.setValue(longitude);
-
-                path = "Enterprise/"+uid+"/Store/"+uuid.toString()+"/Name";
-                ref= FirebaseDatabase.getInstance().getReference(path);
                 name =name1.getText().toString();
-                ref.setValue(name);
-
-                path = "Enterprise/"+uid+"/Store/"+uuid.toString()+"/Contact";
-                ref= FirebaseDatabase.getInstance().getReference(path);
                 contact =contact1.getText().toString();
-                ref.setValue(contact);
+                ref.child("Latitude").setValue(latitude);
+                ref.child("Longitude").setValue(longitude);
+                ref.child("Name").setValue(name);
+                ref.child("Contact").setValue(contact);
+
             }
         });
     }
@@ -200,13 +194,15 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
     private void setMarkerBP(DataSnapshot dataSnapshot) {
         String key = dataSnapshot.getKey();
         HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
-        double lat = Double.parseDouble(value.get("Lat").toString());
-        double lng = Double.parseDouble(value.get("Long").toString());
-        LatLng location = new LatLng(lat, lng);
-        if (!mMarkers.containsKey(key)) {
-            mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)));
-        } else {
-            mMarkers.get(key).setPosition(location);
+        if (value.get("Latitude")!=null && value.get("Longitude")!=null) {
+            double lat = Double.parseDouble(value.get("Latitude").toString());
+            double lng = Double.parseDouble(value.get("Longitude").toString());
+            LatLng location = new LatLng(lat, lng);
+            if (!mMarkers.containsKey(key)) {
+                mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)));
+            } else {
+                mMarkers.get(key).setPosition(location);
+            }
         }
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (Marker marker : mMarkers.values()) {
