@@ -1,9 +1,11 @@
 package com.project.usthack.deliverytracking;
 
 import android.content.Context;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
         holder.textView.setText(listdata[position]);
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,10 +53,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder>{
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
+        public EditText editText;
         public RelativeLayout relativeLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            this.editText = itemView.findViewById(R.id.Quantity);
             this.textView = itemView.findViewById(R.id.textView);
             relativeLayout = itemView.findViewById(R.id.relativeLayout);
         }

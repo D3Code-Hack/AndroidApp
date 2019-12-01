@@ -116,7 +116,6 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
                 ref.child("Longitude").setValue(longitude);
                 ref.child("Name").setValue(name);
                 ref.child("Contact").setValue(contact);
-
             }
         });
     }
