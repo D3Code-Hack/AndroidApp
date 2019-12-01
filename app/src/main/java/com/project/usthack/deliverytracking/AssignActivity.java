@@ -1,6 +1,8 @@
 package com.project.usthack.deliverytracking;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +15,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class AssignActivity extends AppCompatActivity {
+
+    RecyclerView recyclerView;
+    LinearLayoutManager layoutManager;
+    private RecyclerView.Adapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,5 +70,17 @@ public class AssignActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView <?> parent) {
             }
         });
+
+        recyclerView = findViewById(R.id.items);
+        recyclerView.setHasFixedSize(true);
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        String[] myDataset =new String[]{"Pen","Pencils", "Colors"};
+        // specify an adapter (see also next example)
+        mAdapter = new ItemAdapter(myDataset);
+        recyclerView.setAdapter(mAdapter);
+
     }
 }
