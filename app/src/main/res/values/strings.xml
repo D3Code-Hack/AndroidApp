@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">DeliveryTracking</string>
+    <string name="title_activity_delivery_person">Map</string>
+</resources>

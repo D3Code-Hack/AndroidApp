@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "530081956051",
+    "firebase_url": "https://deliverytracking-293d7.firebaseio.com",
+    "project_id": "deliverytracking-293d7",
+    "storage_bucket": "deliverytracking-293d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530081956051:android:67c277c892e7b85d9d5426",
+        "android_client_info": {
+          "package_name": "com.project.usthack.deliverytracking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530081956051-iv0dpunrhgqacgnreonnu36ffp60agcm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.usthack.deliverytracking",
+            "certificate_hash": "5989d1d7d9848b5c5bdc1b33ef629aa662e1f415"
+          }
+        },
+        {
+          "client_id": "530081956051-kmrguu75ced3k1t0bosi5n8po7d289tr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAei5P_qCUDiSHR5e-yq8q7fJgKfJfmwRI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "530081956051-kmrguu75ced3k1t0bosi5n8po7d289tr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
