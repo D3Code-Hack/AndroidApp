@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
@@ -31,6 +35,8 @@ public class SignUp extends AppCompatActivity {
     private EditText password;
     private EditText email;
     private ProgressDialog progressDialog;
+    boolean checked;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,8 +123,19 @@ public class SignUp extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if (task.isSuccessful()) {
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            String uid = user.getUid();
                             Toast.makeText(SignUp.this, "Woo-hoo! Successfully registered", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            final String path = "Users/"+uid+"/Role";
+                            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference(path);
+                            if (checked == false) {
+                                intent = new Intent(getApplicationContext(), DeliveryPerson.class);
+                                ref1.setValue("Driver");
+                            }
+                            else {
+                                intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                                ref1.setValue("Admin");
+                            }
                             startActivity(intent);
                         } else {
                             if (task.getException()instanceof FirebaseAuthUserCollisionException){
@@ -130,6 +147,10 @@ public class SignUp extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public void onCheckboxClicked(View view) {
+        checked = ((CheckBox) view).isChecked();
     }
 }
 

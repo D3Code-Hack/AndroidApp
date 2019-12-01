@@ -48,34 +48,30 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser()!=null){
             String uid = mAuth.getCurrentUser().getUid();
-//            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/"+uid);
-//            ref.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    String role = dataSnapshot.child("Role").getValue(String.class);
-//                    assert role != null;
-//                    if (role.equals("Admin")) {
-//                        Intent intent = new Intent(getApplicationContext(), Admin.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        startActivity(intent);
-//                        finish();
-//                    }
-//                    else {
-//                        Intent intent = new Intent(getApplicationContext(), DeliveryPerson.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        startActivity(intent);
-//                        finish();
-//                    }
-//                }
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
-            Intent intent = new Intent(getApplicationContext(), Admin.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/"+uid);
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String role = dataSnapshot.child("Role").getValue(String.class);
+                    assert role != null;
+                    if (role.equals("Admin")) {
+                        Intent intent = new Intent(getApplicationContext(), Admin.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else {
+                        Intent intent = new Intent(getApplicationContext(), DeliveryPerson.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
 
         progressDialog = new ProgressDialog(this);
@@ -151,34 +147,30 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_SHORT).show();
 
                             String uid = mAuth.getCurrentUser().getUid();
-//                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/"+uid);
-//                            ref.addValueEventListener(new ValueEventListener() {
-//                                @Override
-//                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                    String role = dataSnapshot.child("Role").getValue(String.class);
-//                                    assert role != null;
-//                                    if (role.equals("DySP")) {
-//                                        Intent intent = new Intent(getApplicationContext(), Admin.class);
-//                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                        startActivity(intent);
-//                                        finish();
-//                                    }
-//                                    else {
-//                                        Intent intent = new Intent(getApplicationContext(), DeliveryPerson.class);
-//                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                        startActivity(intent);
-//                                        finish();
-//                                    }
-//                                }
-//                                @Override
-//                                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                                }
-//                            });
-                            Intent intent = new Intent(getApplicationContext(), Admin.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            finish();
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/"+uid);
+                            ref.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    String role = dataSnapshot.child("Role").getValue(String.class);
+                                    assert role != null;
+                                    if (role.equals("Admin")) {
+                                        Intent intent = new Intent(getApplicationContext(), Admin.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                    else {
+                                        Intent intent = new Intent(getApplicationContext(), DeliveryPerson.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                         } else {
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_SHORT).show();
