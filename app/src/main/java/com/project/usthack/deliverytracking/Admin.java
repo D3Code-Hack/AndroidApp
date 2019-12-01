@@ -41,6 +41,7 @@ import org.joda.time.DateTime;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class Admin extends FragmentActivity implements OnMapReadyCallback {
     String s;
@@ -59,7 +60,6 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
     private String contact;
     private String latitude;
     private String longitude;
-    private String place;
 
     String path="";
     DatabaseReference ref;
@@ -74,7 +74,6 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
         longitude1 = (EditText) findViewById(R.id.longitude);
         name1 = (EditText) findViewById(R.id.oname);
         contact1 = (EditText) findViewById(R.id.ocontact);
-        place1 = (EditText) findViewById(R.id.place);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -105,31 +104,25 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
             public void onClick(View v) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = user.getUid();
-                place =place1.getText().toString();
+                UUID uuid = UUID.randomUUID();
 
-                path = "Enterprise/"+uid+"/Store/"+place+"/Name";
+                path = "Enterprise/"+uid+"/Store/"+uuid.toString()+"/Lat";
+                ref= FirebaseDatabase.getInstance().getReference(path);
+
+                path = "Enterprise/"+uid+"/Store/"+uuid.toString()+"/Long";
+                ref= FirebaseDatabase.getInstance().getReference(path);
+                longitude =longitude1.getText().toString();
+                ref.setValue(longitude);
+
+                path = "Enterprise/"+uid+"/Store/"+uuid.toString()+"/Name";
                 ref= FirebaseDatabase.getInstance().getReference(path);
                 name =name1.getText().toString();
                 ref.setValue(name);
 
-                path = "Enterprise/"+uid+"/Store/"+place+"/Contact";
+                path = "Enterprise/"+uid+"/Store/"+uuid.toString()+"/Contact";
                 ref= FirebaseDatabase.getInstance().getReference(path);
                 contact =contact1.getText().toString();
                 ref.setValue(contact);
-
-                path = "Enterprise/"+uid+"/Store/"+place+"/Lat";
-                ref= FirebaseDatabase.getInstance().getReference(path);
-                //latitude =latitude1.getText().toString();
-                ref.setValue("12.8");
-
-                path = "Enterprise/"+uid+"/Store/"+place+"/Long";
-                ref= FirebaseDatabase.getInstance().getReference(path);
-                //longitude =longitude1.getText().toString();
-                ref.setValue("18.1");
-
-                Intent intent = new Intent(getApplicationContext(),TrackActivity.class);
-                startActivity(intent);
-                finish();
             }
         });
     }
