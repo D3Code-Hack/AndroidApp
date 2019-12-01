@@ -14,7 +14,7 @@
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="550dp"
+            android:layout_height="400dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
@@ -25,27 +25,12 @@
             tools:context=".MapsActivity"
             tools:ignore="MissingConstraints" />
 
-        <Button
-            android:id="@+id/add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/holo_red_dark"
-            android:text="ADD"
-            android:textColor="#FFFF"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/place"
-            app:layout_constraintTop_toBottomOf="@+id/map" />
-
         <EditText
             android:id="@+id/place"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="68dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="68dp"
             android:ems="10"
             android:hint="UST GLOBAL"
@@ -54,26 +39,83 @@
             android:textColor="@color/colorPrimaryDark"
             android:textColorHint="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/map"
             tools:textColor="@color/colorPrimaryDark"
             tools:textColorHighlight="#FFFFFF" />
 
+        <EditText
+            android:id="@+id/oname"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="68dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="68dp"
+            android:ems="10"
+            android:hint="Owner Name"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/place"
+            tools:textColor="@color/colorPrimaryDark"
+            tools:textColorHighlight="#FFFFFF" />
+
+
+        <EditText
+            android:id="@+id/ocontact"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="68dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="68dp"
+            android:ems="10"
+            android:hint="Owner Contact"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oname"
+            tools:textColor="@color/colorPrimaryDark"
+            tools:textColorHighlight="#FFFFFF" />
+
         <Button
-            android:id="@+id/next"
+            android:id="@+id/add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="184dp"
+            android:background="@android:color/holo_red_dark"
+            android:text="ADD"
+            android:textColor="#FFFF"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ocontact" />
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="40dp"
             android:background="@color/colorPrimaryDark"
             android:text="NEXT"
             android:textColor="#FFFF"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.557"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add"
-            app:layout_constraintVertical_bias="0.882" />
+            app:layout_constraintVertical_bias="1.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -48,11 +49,32 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     private HashMap<String, Marker> mMarkers = new HashMap<>();
 
+    private EditText name1;
+    private EditText contact1;
+    private EditText latitude1;
+    private EditText place1;
+    private EditText longitude1;
+
+    private String name;
+    private String contact;
+    private String latitude;
+    private String longitude;
+    private String place;
+
+    String path="";
+    DatabaseReference ref;
+    private Button submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+
+//        latitude1 = (EditText) findViewById(R.id.latitude);
+//        longitude1 = (EditText) findViewById(R.id.longitude);
+        name1 = (EditText) findViewById(R.id.oname);
+        contact1 = (EditText) findViewById(R.id.ocontact);
+        place1 = (EditText) findViewById(R.id.place);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -60,21 +82,54 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
 
         b= findViewById(R.id.add);
         nxt= findViewById(R.id.next);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TextView t = findViewById(R.id.place);
-                s = t.getText().toString();
-                Log.d("STRING", s);
-                getLatLng(s,getApplicationContext());
-            }
-        });
+//        b.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                TextView t = findViewById(R.id.place);
+//                s = t.getText().toString();
+//                Log.d("STRING", s);
+//                getLatLng(s,getApplicationContext());
+//            }
+//        });
 
         nxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), TrackActivity.class);
                 startActivity(myIntent);
+            }
+        });
+
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String uid = user.getUid();
+                place =place1.getText().toString();
+
+                path = "Enterprise/"+uid+"/Store/"+place+"/Name";
+                ref= FirebaseDatabase.getInstance().getReference(path);
+                name =name1.getText().toString();
+                ref.setValue(name);
+
+                path = "Enterprise/"+uid+"/Store/"+place+"/Contact";
+                ref= FirebaseDatabase.getInstance().getReference(path);
+                contact =contact1.getText().toString();
+                ref.setValue(contact);
+
+                path = "Enterprise/"+uid+"/Store/"+place+"/Latitude";
+                ref= FirebaseDatabase.getInstance().getReference(path);
+                //latitude =latitude1.getText().toString();
+                ref.setValue("12.8");
+
+                path = "Enterprise/"+uid+"/Store/"+place+"/Longitude";
+                ref= FirebaseDatabase.getInstance().getReference(path);
+                //longitude =longitude1.getText().toString();
+                ref.setValue("18.1");
+
+                Intent intent = new Intent(getApplicationContext(),TrackActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -122,8 +177,8 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
     private void MarkStores() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Enterprise/"+uid+"/Store");
-        ref.addChildEventListener(new ChildEventListener() {
+        DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("Enterprise/"+uid+"/Store");
+        ref1.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 setMarkerBP(dataSnapshot);
