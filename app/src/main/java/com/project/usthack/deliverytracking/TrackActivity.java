@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -37,7 +38,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private static final int PERMISSIONS_REQUEST = 1;
     private LatLng curloc;
-    private Button im;
+    private Button m;
 
 
     @Override
@@ -48,6 +49,16 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        m=findViewById(R.id.assign);
+
+        m.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AssignActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
