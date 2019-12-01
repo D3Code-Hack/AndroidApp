@@ -70,8 +70,8 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
-//        latitude1 = (EditText) findViewById(R.id.latitude);
-//        longitude1 = (EditText) findViewById(R.id.longitude);
+        latitude1 = (EditText) findViewById(R.id.latitude);
+        longitude1 = (EditText) findViewById(R.id.longitude);
         name1 = (EditText) findViewById(R.id.oname);
         contact1 = (EditText) findViewById(R.id.ocontact);
         place1 = (EditText) findViewById(R.id.place);
@@ -117,12 +117,12 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
                 contact =contact1.getText().toString();
                 ref.setValue(contact);
 
-                path = "Enterprise/"+uid+"/Store/"+place+"/Latitude";
+                path = "Enterprise/"+uid+"/Store/"+place+"/Lat";
                 ref= FirebaseDatabase.getInstance().getReference(path);
                 //latitude =latitude1.getText().toString();
                 ref.setValue("12.8");
 
-                path = "Enterprise/"+uid+"/Store/"+place+"/Longitude";
+                path = "Enterprise/"+uid+"/Store/"+place+"/Long";
                 ref= FirebaseDatabase.getInstance().getReference(path);
                 //longitude =longitude1.getText().toString();
                 ref.setValue("18.1");

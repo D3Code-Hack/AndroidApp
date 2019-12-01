@@ -19,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -117,16 +118,29 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
             builder.include(marker.getPosition());
         }
         //changeBeatPointsStatus(location);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
+        //mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        mMap.clear();
+
+        CameraPosition googlePlex = CameraPosition.builder()
+                .target(new LatLng(8.5581,76.8829))
+                .zoom(15)
+                .bearing(0)
+                .tilt(45)
+                .build();
+
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null);
 
         // Add a marker in Sydney and move the camera
-        LatLng ust = new LatLng(8.5581,76.8829);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(ust));
+//        LatLng ust = new LatLng(8.5581,76.8829);
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(ust));
 
         subscribeToUpdates();
     }
