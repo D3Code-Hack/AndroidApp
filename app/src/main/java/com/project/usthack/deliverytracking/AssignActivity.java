@@ -15,7 +15,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AssignActivity extends AppCompatActivity {
 
@@ -31,6 +35,8 @@ public class AssignActivity extends AppCompatActivity {
     private EditText item31;
 
     private Button submit;
+    String var;
+
 
     String name = "";
     String address = "";
@@ -67,11 +73,18 @@ public class AssignActivity extends AppCompatActivity {
         });
 
         Spinner spinner2 = findViewById(R.id.spinner2);
+        final HashMap<String, String> hmap = new HashMap<String, String>();
+
+        /*Adding elements to HashMap*/
+        hmap.put("Flamingo Inn (55.7, 28.2)", "55.7,28.2");
+        hmap.put("UST Parking (45.67, 23.55)", "45.67,23.55");
+        hmap.put("Infosys park (44.44, 55.55)", "44.44,55.55");
+
         ArrayList<String> arrayList2 = new ArrayList<>();
-        arrayList2.add("Flamingo Inn");
-        arrayList2.add("UST Parking");
-        arrayList2.add("Infosys park");
-        arrayList2.add("Veli Village");
+        arrayList2.add("Flamingo Inn (55.7, 28.2)");
+        arrayList2.add("UST Parking (45.67, 23.55)");
+        arrayList2.add("Infosys park (44.44, 55.55)");
+
         ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arrayList2);
         arrayAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(arrayAdapter2);
@@ -81,7 +94,12 @@ public class AssignActivity extends AppCompatActivity {
                 String tutorialsName = parent.getItemAtPosition(position).toString();
                 Toast.makeText(parent.getContext(), "Selected: " + tutorialsName, Toast.LENGTH_LONG).show();
                 address = tutorialsName;
-
+                var = hmap.get(tutorialsName);
+                String[] loc = var.split(",", 2);
+                final String path1 = "assignment/";
+                DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference(path1);
+                ref1.child("Latitude").setValue(loc[0]);
+                ref1.child("Longitude").setValue(loc[1]);
             }
             @Override
             public void onNothingSelected(AdapterView <?> parent) {
