@@ -72,6 +72,7 @@ public class DeliveryPerson extends FragmentActivity implements OnMapReadyCallba
         final Button bt = findViewById(R.id.start);
         final EditText txtView = findViewById(R.id.otp);
         final ImageView bt1 = findViewById(R.id.verify);
+
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
