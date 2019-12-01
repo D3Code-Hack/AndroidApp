@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.gms.common.util.MapUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -48,6 +49,8 @@ import com.google.maps.model.TravelMode;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -174,34 +177,29 @@ public class DeliveryPerson extends FragmentActivity implements OnMapReadyCallba
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
+        double v1 = 8.48;
+        double v2 = 76.91;
         mMap.clear(); //clear old markers
         DateTime now = new DateTime();
-        try {
-            results = DirectionsApi.newRequest(getGeoContext())
-                    .mode(TravelMode.DRIVING).origin("place_id:ChIJlbKEE4C7BTsR92Udc6T1WR0")
-                    .destination("place_id:ChIJi0Ayjvu-BTsR71oV4xWl4wU").departureTime(now)
-                    .await();
+
+            DirectionsResult results = DirectionsApi.newRequest(getGeoContext())
+                    .mode(TravelMode.DRIVING)
+                    .origin(new com.google.maps.model.LatLng(v1,v2))
+                    .destination(new com.google.maps.model.LatLng(v1,v2))
+                    .awaitIgnoreError();
+
             mMap.addMarker(new MarkerOptions().position(new LatLng(results.routes[0].legs[0].startLocation.lat,results.routes[0].legs[0].startLocation.lng)).title(results.routes[0].legs[0].startAddress));
-            mMap.addMarker(new MarkerOptions().position(new LatLng(results.routes[0].legs[0].endLocation.lat,results.routes[0].legs[0].endLocation.lng)).title(results.routes[0].legs[0].startAddress).snippet("Time :"+ results.routes[0].legs[0].duration.humanReadable + " Distance :" + results.routes[0].legs[0].distance.humanReadable));
+//            mMap.addMarker(new MarkerOptions().position(new LatLng(results.routes[0].legs[0].endLocation.lat,results.routes[0].legs[0].endLocation.lng)).title(results.routes[0].legs[0].startAddress).snippet("Time :"+ results.routes[0].legs[0].duration.humanReadable + " Distance :" + results.routes[0].legs[0].distance.humanReadable));
             List<LatLng> decodedPath = PolyUtil.decode(results.routes[0].overviewPolyline.getEncodedPath());
             mMap.addPolyline(new PolylineOptions().addAll(decodedPath));
 
-        } catch (ApiException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         CameraPosition googlePlex = CameraPosition.builder()
-                .target(new LatLng(8.5581,76.8829))
-                .zoom(13)
+                .target(new LatLng(8.5581,7.8829))
                 .bearing(0)
                 .tilt(45)
                 .build();
 
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null);
+//        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null);
 
         MarkStores();
         subscribeToUpdates();
@@ -265,6 +263,7 @@ public class DeliveryPerson extends FragmentActivity implements OnMapReadyCallba
                 double lng = dataSnapshot.child("longitude").getValue(double.class);
                 LatLng location = new LatLng(lat, lng);
 
+
                 if (!mMarkers.containsKey(uid)) {
                     mMarkers.put(uid, mMap.addMarker(new MarkerOptions().title(uid).position(location)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
@@ -275,7 +274,7 @@ public class DeliveryPerson extends FragmentActivity implements OnMapReadyCallba
                 for (Marker marker : mMarkers.values()) {
                     builder.include(marker.getPosition());
                 }
-                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
+//                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(),100));
             }
 
             @Override

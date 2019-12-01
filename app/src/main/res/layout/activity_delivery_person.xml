@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="550dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -30,22 +30,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="68dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="8dp"
             android:background="@color/colorPrimaryDark"
             android:text="START"
             android:textColor="#FFFF"
             android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/map"
-            app:layout_constraintVertical_bias="0.882" />
+            app:layout_constraintTop_toBottomOf="@+id/emer" />
 
         <EditText
             android:id="@+id/otp"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="68dp"
+            android:layout_marginStart="55dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="68dp"
             android:ems="10"
             android:hint="0000"
             android:inputType="number"
@@ -53,8 +52,6 @@
             android:textColor="@color/colorPrimaryDark"
             android:textColorHint="@color/colorPrimaryDark"
             android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/start"
             tools:textColor="@color/colorPrimaryDark"
@@ -64,39 +61,33 @@
             android:id="@+id/verify"
             android:layout_width="60dp"
             android:layout_height="47dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
             android:src="@drawable/verify"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.096"
+            android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/otp"
             app:layout_constraintTop_toBottomOf="@+id/start"
-            android:visibility="invisible"
-            app:layout_constraintVertical_bias="1.0"
             tools:ignore="ContentDescription" />
 
         <Button
             android:id="@+id/emer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="456dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="64dp"
             android:text="EMergency"
-            app:layout_constraintBottom_toBottomOf="@+id/map"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.829"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.66" />
+            app:layout_constraintTop_toBottomOf="@+id/map" />
 
         <Button
             android:id="@+id/chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="459dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="8dp"
             android:text="Chat"
-            app:layout_constraintBottom_toBottomOf="@+id/map"
-            app:layout_constraintEnd_toStartOf="@+id/emer"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/map" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
