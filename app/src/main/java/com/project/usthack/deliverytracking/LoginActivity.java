@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 //
 //                }
 //            });
-            Intent intent = new Intent(getApplicationContext(), DeliveryPerson.class);
+            Intent intent = new Intent(getApplicationContext(), Admin.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
 //
 //                                }
 //                            });
-                            Intent intent = new Intent(getApplicationContext(), DeliveryPerson.class);
+                            Intent intent = new Intent(getApplicationContext(), Admin.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finish();

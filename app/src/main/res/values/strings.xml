@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">DeliveryTracking</string>
     <string name="title_activity_delivery_person">Map</string>
+    <string name="title_activity_track">Map</string>
 </resources>
