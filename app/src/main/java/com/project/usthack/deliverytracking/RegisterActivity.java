@@ -86,6 +86,8 @@ public class RegisterActivity extends AppCompatActivity {
                 ref.setValue(longitude);
 
                 Intent intent = new Intent(getApplicationContext(), Admin.class);
+                intent.putExtra("lat",latitude);
+                intent.putExtra("log",longitude);
                 startActivity(intent);
                 finish();
             }

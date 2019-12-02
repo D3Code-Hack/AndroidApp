@@ -106,7 +106,7 @@ public class TrackerService extends Service {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
         LocationRequest request = new LocationRequest();
-        request.setInterval(120000);
+        request.setInterval(12);
         request.setFastestInterval(5000);
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);

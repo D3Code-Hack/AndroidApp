@@ -31,6 +31,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.maps.DirectionsApi;
 import com.google.maps.android.PolyUtil;
 import com.google.maps.errors.ApiException;
@@ -54,7 +56,7 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
     private EditText latitude1;
     private EditText place1;
     private EditText longitude1;
-
+double lat1,log1;
     private String name;
     private String contact;
     private String latitude;
@@ -65,10 +67,15 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
     DatabaseReference ref;
     private Button submit;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_admin);
+
 
         latitude1 = (EditText) findViewById(R.id.latitude);
         longitude1 = (EditText) findViewById(R.id.longitude);
@@ -117,12 +124,12 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
                 contact =contact1.getText().toString();
                 ref.setValue(contact);
 
-                path = "Enterprise/"+uid+"/Store/"+place+"/Lat";
+                path = "Enterprise/"+uid+"/Store/"+place+"/Latitude";
                 ref= FirebaseDatabase.getInstance().getReference(path);
                 //latitude =latitude1.getText().toString();
                 ref.setValue("12.8");
 
-                path = "Enterprise/"+uid+"/Store/"+place+"/Long";
+                path = "Enterprise/"+uid+"/Store/"+place+"/Longitude";
                 ref= FirebaseDatabase.getInstance().getReference(path);
                 //longitude =longitude1.getText().toString();
                 ref.setValue("18.1");
@@ -156,20 +163,40 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+    public void onMapReady(final GoogleMap googleMap) {
 
-        mMap.clear();
 
-        CameraPosition googlePlex = CameraPosition.builder()
-                .target(new LatLng(8.5581,76.8829))
-                .zoom(13)
-                .bearing(0)
-                .tilt(45)
-                .build();
+        DatabaseReference db =FirebaseDatabase.getInstance().getReference().child("Enterprise");
+        Query query = db.orderByKey().limitToLast(1);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child: dataSnapshot.getChildren()) {
+                    lat1 =  Double.parseDouble(child.child("Latitude").getValue().toString());
+                    log1 =  Double.parseDouble(child.child("Longitude").getValue().toString());
+                }
+                mMap = googleMap;
+                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                Log.d("msg",""+lat1+"hi");
+                Log.d("msg",""+lat1);
+                CameraPosition googlePlex = CameraPosition.builder()
+                        .target(new LatLng(lat1,log1))
+                        .zoom(1)
+                        .bearing(0)
+                        .tilt(45)
+                        .build();
 
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null);
+                mMap.addMarker(new MarkerOptions().position(new LatLng(lat1,log1))).setTitle("Enterprise");
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         MarkStores();
     }
@@ -205,20 +232,28 @@ public class Admin extends FragmentActivity implements OnMapReadyCallback {
     }
 
     private void setMarkerBP(DataSnapshot dataSnapshot) {
-        String key = dataSnapshot.getKey();
-        HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
-        double lat = Double.parseDouble(value.get("Lat").toString());
-        double lng = Double.parseDouble(value.get("Long").toString());
-        LatLng location = new LatLng(lat, lng);
-        if (!mMarkers.containsKey(key)) {
-            mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)));
-        } else {
-            mMarkers.get(key).setPosition(location);
+        try{
+            String key = dataSnapshot.getKey();
+            HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
+            double lat = Double.parseDouble(value.get("Latitude").toString());
+            double lng = Double.parseDouble(value.get("Longitude").toString());
+            LatLng location = new LatLng(lat, lng);
+            if (!mMarkers.containsKey(key)) {
+                mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)));
+            } else {
+                mMarkers.get(key).setPosition(location);
+            }
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (Marker marker : mMarkers.values()) {
+                builder.include(marker.getPosition());
+            }
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
+
         }
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Marker marker : mMarkers.values()) {
-            builder.include(marker.getPosition());
+        catch(Exception e){
+            
         }
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
+
+
     }
 }
