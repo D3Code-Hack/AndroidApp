@@ -38,6 +38,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.maps.DirectionsApi;
 import com.google.maps.GeoApiContext;
@@ -51,6 +52,7 @@ import org.joda.time.DateTime;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -61,9 +63,11 @@ public class DeliveryPerson extends FragmentActivity implements OnMapReadyCallba
     private GoogleMap mMap;
     DirectionsResult results;
     String otp;
+
+    final List<String> cities = new ArrayList<String>();
     int v=0;
     private HashMap<String, Marker> mMarkers = new HashMap<>();
-
+    double v1,v2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +101,7 @@ public class DeliveryPerson extends FragmentActivity implements OnMapReadyCallba
                 startActivity(intent);
             }
         });
-        bt.setOnClickListener(new View.OnClickListener() {
+                        bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String strst1 = bt.getText().toString();
@@ -174,33 +178,43 @@ public class DeliveryPerson extends FragmentActivity implements OnMapReadyCallba
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+
+
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("assignment");
+
+        databaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                int i=0;
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    cities.add(postSnapshot.getValue().toString());
+                    if(i==0){
+                        v1 = Double.parseDouble(postSnapshot.getValue().toString());
+                    }
+                    else{
+                        v2 = Double.parseDouble(postSnapshot.getValue().toString());
+                    }
+                    i++;
+
+                    Log.i("raghav",postSnapshot.getValue().toString());
+                }
+
+                mMap.addMarker(new MarkerOptions().position(new LatLng(v1,v2))).setTitle("Destination for the driver");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
-        double v1 = 8.48;
-        double v2 = 76.91;
         mMap.clear(); //clear old markers
         DateTime now = new DateTime();
-
-            DirectionsResult results = DirectionsApi.newRequest(getGeoContext())
-                    .mode(TravelMode.DRIVING)
-                    .origin(new com.google.maps.model.LatLng(v1,v2))
-                    .destination(new com.google.maps.model.LatLng(v1,v2))
-                    .awaitIgnoreError();
-
-            mMap.addMarker(new MarkerOptions().position(new LatLng(results.routes[0].legs[0].startLocation.lat,results.routes[0].legs[0].startLocation.lng)).title(results.routes[0].legs[0].startAddress));
-//            mMap.addMarker(new MarkerOptions().position(new LatLng(results.routes[0].legs[0].endLocation.lat,results.routes[0].legs[0].endLocation.lng)).title(results.routes[0].legs[0].startAddress).snippet("Time :"+ results.routes[0].legs[0].duration.humanReadable + " Distance :" + results.routes[0].legs[0].distance.humanReadable));
-            List<LatLng> decodedPath = PolyUtil.decode(results.routes[0].overviewPolyline.getEncodedPath());
-            mMap.addPolyline(new PolylineOptions().addAll(decodedPath));
-
-        CameraPosition googlePlex = CameraPosition.builder()
-                .target(new LatLng(8.5581,7.8829))
-                .bearing(0)
-                .tilt(45)
-                .build();
-
-//        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null);
-
         MarkStores();
         subscribeToUpdates();
     }
