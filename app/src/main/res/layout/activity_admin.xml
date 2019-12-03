@@ -93,7 +93,7 @@
             android:layout_margin="10dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="184dp"
-            android:background="@android:color/holo_red_dark"
+            android:background="@color/colorPrimaryDark"
             android:text="ADD"
             android:textColor="#FFFF"
             android:textSize="24sp"

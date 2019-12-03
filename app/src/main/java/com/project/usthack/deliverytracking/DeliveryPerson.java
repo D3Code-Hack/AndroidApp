@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -79,14 +80,14 @@ public class DeliveryPerson extends FragmentActivity implements OnMapReadyCallba
                 String strst1 = bt.getText().toString();
                 if(strst1.equalsIgnoreCase("Start")){
                     startService(new Intent(getApplicationContext(), TrackerService.class));
-                    bt.setBackgroundColor(Color.BLUE);
+                    bt.setBackgroundColor(Color.parseColor("#FFC107"));
                     bt.setText("STOP");
                     txtView.setVisibility(View.VISIBLE);
                     bt1.setVisibility(View.VISIBLE);
-                    otp = String.valueOf(new Random().nextInt(9999));
+                    otp = String.valueOf(new Random().nextInt(10000));
                     //Get number of the owner of the store to which he is assigned.
                     SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage("7250996657", null, "The OTP for verification is "+otp, null, null);
+                    smsManager.sendTextMessage("8853399975", null, "The OTP for verification is "+otp, null, null);
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     String uid = user.getUid();
                     String path = "OTP/"+uid;
@@ -95,12 +96,34 @@ public class DeliveryPerson extends FragmentActivity implements OnMapReadyCallba
                 }
                 if(strst1.equalsIgnoreCase("Stop")){
                     stopService(new Intent(getApplicationContext(), TrackerService.class));
-                    bt.setBackgroundColor(Color.RED);
+                    bt.setBackgroundColor(Color.parseColor("#7B1FA2"));
                     bt.setText("START");
                     txtView.setVisibility(View.INVISIBLE);
                     bt1.setVisibility(View.INVISIBLE);
 
                 }}});
+
+        final Button chat = findViewById(R.id.chat);
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebView webview = new WebView(getApplicationContext());
+                webview.getSettings().setJavaScriptEnabled(true);
+                setContentView(webview);
+                webview.loadUrl("https://ust-hack.herokuapp.com");
+
+            }
+        });
+
+        final Button emer = findViewById(R.id.emergency);
+        emer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("hi","error");
+                Intent intent = new Intent(getApplicationContext(),emergency.class);
+                startActivity(intent);
+            }
+        });
 
             bt1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -117,10 +140,13 @@ public class DeliveryPerson extends FragmentActivity implements OnMapReadyCallba
                                 Toast.makeText(DeliveryPerson.this, "OTP Verified, Stop Tracking", Toast.LENGTH_SHORT).show();
                                 SmsManager smsManager = SmsManager.getDefault();
                                 //Number and store location and order id to be taken from database
-                                smsManager.sendTextMessage("7250996657", null, "Package delivered at XYZ", null, null);
+                                smsManager.sendTextMessage("9008327935", null, "Package delivered at XYZ", null, null);
                                 txtView.setVisibility(View.INVISIBLE);
                                 bt1.setVisibility(View.INVISIBLE);
                                 v=1;
+
+                                Intent intent = new Intent(getApplicationContext(),DeliveryPerson.class);
+                                startActivity(intent);
                             }
                         }
 
@@ -239,23 +265,27 @@ public class DeliveryPerson extends FragmentActivity implements OnMapReadyCallba
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                try {
+                    double lat = dataSnapshot.child("Latitude").getValue(double.class);
+                    double lng = dataSnapshot.child("Longitude").getValue(double.class);
+                    LatLng location = new LatLng(lat, lng);
 
-                double lat = dataSnapshot.child("latitude").getValue(double.class);
-                double lng = dataSnapshot.child("longitude").getValue(double.class);
-                LatLng location = new LatLng(lat, lng);
+                    if (!mMarkers.containsKey(uid)) {
+                        mMarkers.put(uid, mMap.addMarker(new MarkerOptions().title(uid).position(location)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
+                    } else {
+                        mMarkers.get(uid).setPosition(location);
+                    }
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    for (Marker marker : mMarkers.values()) {
+                        builder.include(marker.getPosition());
+                    }
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
+                }
+                catch(Exception e){
 
-                if (!mMarkers.containsKey(uid)) {
-                    mMarkers.put(uid, mMap.addMarker(new MarkerOptions().title(uid).position(location)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
-                } else {
-                    mMarkers.get(uid).setPosition(location);
                 }
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                for (Marker marker : mMarkers.values()) {
-                    builder.include(marker.getPosition());
                 }
-                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
-            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

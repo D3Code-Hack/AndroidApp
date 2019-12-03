@@ -28,7 +28,7 @@
             android:layout_marginRight="8dp"
             android:gravity="center"
             android:text="Enterprise"
-            android:textColor="#000000"
+            android:textColor="@color/colorPrimary"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -124,7 +124,7 @@
             android:layout_weight="1"
             android:text="Delivery Men"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorPrimary"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -148,15 +148,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:background="@color/colorPrimaryDark"
             android:gravity="center_horizontal"
-            android:text="Add+" />
+            android:text="Add+"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="SUBMIT" />
+            android:background="@color/colorPrimaryDark"
+            android:text="SUBMIT"
+            android:textColor="@android:color/white" />
 
 
     </LinearLayout>
